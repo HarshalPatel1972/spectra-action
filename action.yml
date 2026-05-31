@@ -1,0 +1,25 @@
+name: 'Spectra Quantum Crypto Scan'
+description: 'Scan for quantum-vulnerable cryptography in your repository'
+inputs:
+  fail-on:
+    description: 'Minimum severity to fail: any | high | critical'
+    default: 'critical'
+  output-formats:
+    description: 'Output formats: terminal,json,cbom,html'
+    default: 'terminal,cbom'
+  path:
+    description: 'Path to scan'
+    default: '.'
+outputs:
+  aggregate-qrs:
+    description: 'Aggregate Quantum Risk Score (0-100)'
+  cbom-path:
+    description: 'Path to generated CBOM file'
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/harshalpatel1972/spectra:latest'
+  args:
+    - scan
+    - ${{ inputs.path }}
+    - --fail-on=${{ inputs.fail-on }}
+    - --output=${{ inputs.output-formats }}
